@@ -1,0 +1,250 @@
+     window.addEvent('domready', function(){
+	setUpAll();
+     });
+   
+    // here we define responces for different parts of query sentence to clicks 
+    function widgetOnClicker(query){
+	  // switch on/off  market criterium for the query
+	  $('market').addEvent('click', 
+			change_condition_status('market', 'dealMarketActive', query)
+          );
+
+	  // switch on/off  volume criterium for the query
+	  $('deal_sum').addEvent('click', 
+			change_condition_status('deal_sum', 'dealSumActive', query)
+	  );
+	  
+	  // switch on/off  buyer for the query
+	  $('buyer').addEvent('click', 
+	 	change_composite_status('buyer', 'state_money', 'dealBuyerActive', 
+						'dealSellerActive', query)
+	  );
+
+	  // switch on/off  seller for the query
+	  $('seller').addEvent('click', 
+	 	change_composite_status('seller', 'state_money', 'dealSellerActive', 
+						'dealBuyerActive', query)
+	  );
+           
+	}
+
+      // table for top-N results  
+      var table_updater = function (jsondata, url) {
+
+		// d3.select("#top_result").remove();
+		/* data returned  must be array of arrays 
+		*  [
+		*    [[buyer, id],[seller, id], [sum, nil], [date, nil]] // for each deal
+		*    ...
+		*  ] 
+		*/
+		// transform results if needed
+		//var data = jsondata.map(function(d) { return d.Value; });
+
+	       // create the chart here with
+	       // the returned data
+		 var tbl = d3.select("#top_result tbody");
+
+		 // jsondata.unshift(jsondata[0]);// add additional [] as first element to correct 
+						      // number of output rows 
+
+ 		 var tr = tbl.selectAll("tr .nonexistent_class")
+		  	  .data(jsondata) 		  	    
+			  .enter().append("tr");
+
+		 var td =  tr.selectAll("td")
+		      .data(function(d) {return d;})
+			.enter().append("td")
+			  .html(function(d,i){
+                             var str = '';
+                             switch(i % 4){ // table with top-result
+                               case 0: // buyer etc 
+				  return str + '<a target="new" title="Замовник: '+ d[0] +'" href="'+url+'buyer/'+d[1]+'">'+d[0]+'</a>';
+                               case 1: 
+				  return '<a target="new" title="Отримувач: '+ d[0]
+					+'" href="'+url+'seller/'+d[1]+'">'+d[0]+'</a>';
+                               case 2: // date 
+				  return d[0];
+                               case 3: // volume
+				  return '<a style=" \
+					font-size: 1.6em; "  title="'+
+						d[0]+' гривень" href="'+url+
+						'deal/'+d[1]+'">'+d3.format(".2f")(d[0]/1000000)+
+						'</a>';
+                               default:
+                                  return '';
+                             }
+			  });
+      };
+
+      function add_more (url, query) {
+        var json_query = query.getValue('json_query');
+        json_query["start"] = start;
+        var jsonRequest = new Request.JSON({
+              url: url + "table", 
+              onSuccess: function(jsondata){
+                table_updater(jsondata, url);
+                start += 50;
+                if (number_of_tenders - start <= 0) { $('load-more').set('styles', {display: 'none'}); }
+		else{ $('topx').textContent = "Toп-"+start+" угод по запиту" };
+        }}).post(json_query); // use current json_query obj saved in global query
+      }
+  
+      function build_table(url, query) {
+          d3.selectAll("#top_result tbody tr").remove();
+          start = 0; 
+          add_more(url, query);
+       };
+
+
+
+
+        // define/setup main Tangle object - query. In this object we will collect and update all info 
+	// with this info we will create and send query to our backend 
+         
+        function setUpTangle(url) {
+
+            var element = document.getElementById("tangle_root");
+
+            query = new Tangle(element, {
+                initialize: function () {
+                    this.dealUnits = "мільйонів гривень";              
+		    this.periodName = 'місяць';
+                    this.json_query = {monthes: 1}; 
+                    this.json_query_sig = 'monthes:2'; 
+		                      
+
+                    this.dealVolume = cached.totalDealVolume; // TODO: erb, take it from some cache mayby
+                    this.dealNumber = cached.totalDealNumber;       // TODO: erb
+
+                    this.dealMonthes = 1; 
+                    this.dealSumActive = 0;
+		    this.dealMarketActive = 0;
+		    this.dealMarket = 'будь якою галуззю';
+		    this.dealSum = 0;
+		    this.dealSellerActive = 0;
+		    this.dealBuyerActive = 0;
+                    this.dealBuyerId = 0;  // TODO: add some meaningful id here
+                    this.dealSellerId =  0;  // TODO: add some meaningful id here
+                },
+                // TODO: send query here, update all vars 
+                update: function () {
+		    // TODO: introduce delay here, if needed
+		    var json_query = {monthes: this.dealMonthes};
+                    var json_query_sig = "monthes:" + json_query.monthes;
+
+                    // check if market's part of query is active
+		    if(this.dealMarketActive && !isNaN(this.dealMarket)){
+			json_query.market = this.dealMarket - 2;
+			json_query_sig  += "market:" + json_query.market;
+		    }
+
+                    // check if market's part of query is active
+		    if(this.dealSumActive && !isNaN(this.dealSum)){
+			json_query.sum = this.dealSum;
+			json_query_sig  += "sum:" + json_query.sum;
+		    }
+
+		    if(this.dealBuyerActive && !isNaN(this.dealBuyerId)){
+			json_query.buyer = this.dealBuyerId;
+			json_query_sig  += "buyer:" + json_query.buyer;
+		    }
+
+		    if(this.dealSellerActive && !isNaN(this.dealSellerId)){
+			json_query.seller = this.dealSellerId;
+			json_query_sig  += "seller:" + json_query.seller;
+		    }
+     
+                    var updater = (function(data){
+                          // update main vars, volume and number
+                          if(data.volume > 1000000000){ 
+				query.setValue('dealUnits', 'мільярдів гривень');     
+                                data.volume /= 1000 ;
+			  } else {
+				query.setValue('dealUnits', 'мільйонів гривень');     
+
+ 			  } 
+                          query.setValue('dealVolume', data.volume );
+                          query.setValue('dealNumber', data.number );
+                          number_of_tenders = data.number;
+  			  // construct and assign function for 'more details'(chart and top-10 table)
+		    }).bind(this);
+ 
+		    // we send query if new one is different from old one
+                    // to compare convert it to json string
+ 		    //var query_string = JSON.encode(json_query);
+	
+                    if( !(json_query_sig == this.json_query_sig) ){
+                    //if( query_string != this.json_query ){
+                      this.json_query = json_query;
+                      this.json_query_sig = json_query_sig;
+          $('top_table').set('styles', {display: 'none'});
+		      // main query ajax request, returns volume / number pair	
+		      var jsonRequest = new Request.JSON({
+			url: url, 
+			onSuccess: function(pair){
+                          updater(pair); 
+		     }}).post(json_query);
+		   }
+
+		   // correct ukrainan word for plural monthes 	
+                   this.periodName = time_name_ua(this.dealMonthes);
+                   
+                }
+            });
+        }
+
+
+
+
+        var years = cached.all_years;
+        var data = cached.data; 
+	var years = [  "2008", "2009", "2010", "2011"]; // TODO: generate this part in erb 
+	var data = [ 60,71,186,201]; // TODO: generate this part in erb 
+	var w = 230, h = 190, p = 20;
+
+  var start = 0; 
+  var number_of_tenders = 0;
+
+
+
+ 	function setUpAll(){
+          var url = '<%=url %>';
+	  setUpTangle( url + 'query');
+          // click logic
+	  widgetOnClicker(query);
+
+          // show table with top-ten results and timechart
+          $('stats').addEvent('click',
+             function(){
+                $('top_table').set('styles', {display: 'inline'});
+		build_table(url, query);
+                $('load-more').set('styles', {display: 'block'});
+	        //timeChart(data, years, w, h, p, '');
+                
+             }
+           );
+          $('load-more').addEvent('click', function() {
+            add_more(url, query);            
+          });
+
+          // draw chart
+
+         //setup autocomplete
+         $('pre_search1').addEvent('click', function(event){
+	   // create input box with text from string:  pre_search1 - id of first string, 
+			// search1 - id for input box, anch1 - anchor element before
+            event.stopPropagation();
+            flick('pre_search1', 'search1', 'anch1', query, 'dealBuyerId', url ); 
+         });
+
+         $('pre_search2').addEvent('click', function(event){
+            event.stopPropagation();
+            flick('pre_search2', 'search2', 'anch2', query, 'dealSellerId', url ); 
+         });
+
+        $('destroy_instruction').addEvent('click', function(){
+		$("instruction").destroy();
+
+	});
+    }

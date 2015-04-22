@@ -1,0 +1,1 @@
+<div class="span-24"><div style="font-size: 1.1em; font-weight: bold; font-family: 'Georgia'; position: absolute; top: 180px; left: 680px; font-style: italic;"><%=motto%></div><h1 class="main_title"><a  href="#">Zакупівлі</a></h1></div>

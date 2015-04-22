@@ -1,0 +1,80 @@
+<%= partial(:'_header', {:title => 'Закупівлі', :motto => 'У 2011 році через тендери було проведено <a href="http://texty.org.ua/pg/article/devrand/read/35479"> майже 42% ВВП України</a>'}) %>
+<div class="span-12">
+  <form action="/search" method="get">
+    <p>
+      <label for="date_from">Часовий період: від </label>
+      <input type="text" name="date_from" value="<%= date_from %>">
+      <label for="date_to"> до </label>    
+      <input type="text" name="date_to" value="<%= date_to %>">
+    </p>
+    <p>
+      <label for="service_type">Галузь: </label>
+      <select name="service_type" class="galuz">
+        <option value="all" <% if service_type == "all" %> selected="selected" <% end %>>Всі</option>
+        <% service_types.each do |flag, name|  %>
+          <option value="<%= flag %>" <% if service_type == flag.to_s %> selected="selected" <% end %>><%= name[0] %></option>
+        <% end %>
+      </select> 
+    </p>
+    <p>
+      <label for="key_word">Ключове слово: </label>
+      <input type="text" name="key_word" value="<%= key_word %>">
+    </p>
+    <p>
+      <label for="volume_from">Об'єми угод: від </label>
+      <input type="text" name="volume_from" value="<%= volume_from %>">
+      <label for="volume_to"> до </label>
+      <input type="text" name="volume_to" value="<%= volume_to %>">
+    </p>
+    <p>
+      <label for="sort">Сортувати по: </label>
+      <select name="sort">
+        <% {:deal_date => "даті", :volume => "сумі угоди"}.each do |flag, name|  %>
+          <option value="<%= flag %>" <% if sort == flag.to_s %> selected="selected" <% end %>><%= name %></option>
+        <% end %>
+      </select>  
+      <select name="order">
+        <% if order == "asc" %>
+          <option value="asc" selected="selected"> ↑ </option>
+          <option value="desc"> ↓ </option>        
+        <% else %>
+          <option value="asc"> ↑ </option>        
+          <option value="desc" selected="selected"> ↓ </option>
+        <% end %>
+      </select>     
+    </p>
+    <p>
+      <input type="submit" value="Пошук">
+    </p>
+  </form>
+</div>
+<div class="span-12 last">
+  <div class="stats" style="cursor: default;">
+    <ul style="padding-left: 1.9em;">
+      <li><em data-var="dealVolume"><%= volume %></em><span class="upper_label">мільйонів гривень</span></li>
+      <li><em data-var="dealNumber"><%= dnum %></em><span class="upper_label" >Угод</span></li>
+    </ul>
+  </div>
+</div>
+<% if tenders %>
+  <div class="span-24">
+    <p>
+      <%= link_to "/search.csv?date_from=#{date_from}&date_to=#{date_to}&service_type=#{service_type}&key_word=#{key_word}&volume_from=#{volume_from}&volume_to=#{volume_to}", 'Отримати першу тисячу результатів у форматі CSV'  %>
+    </p>
+    <table class="deals_tbl" id="deals">
+      <thead>
+        <tr class="deals_head">
+          <td width="24%">Хто заплатив гроші?</td>
+          <td width="19%">Кому заплатили гроші?</td>
+          <td width="37%">За що заплачено?</td>
+          <td type="Date" width="10%">Дата</td>
+          <td type="Number">Сума<span style="font-size: 0.8em; font-family: OpenSansLight;">, тис.грн</span></td>
+        </tr>
+      </thead>
+      <tbody>
+        <%= partial(:"_search_result", :tenders => tenders) %>
+      </tbody>
+    </table>
+    <div id="load-more">Показати ще</div>
+  </div>
+<% end %>

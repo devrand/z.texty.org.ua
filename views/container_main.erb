@@ -1,0 +1,65 @@
+      <%= partial(:'_header', {:title => 'Закупівлі', :motto => 'Відкрита база даних державних закупівель'}) %>
+      <!--header end-->
+    <div id="tangle_root"><!--tangle (Main query widget)--> 
+      <div class="span-18"><p class="query">Показати угоди за <span class="TKAdjustableNumber" data-var="dealMonthes" data-min="1" data-max="100"></span> <span data-var="periodName"></span><span class="inactive" id="market">, пов'язані з <span class="TKAdjustableNumberMy" data-var="dealMarket" data-min="2" data-max="17">
+                        <% @service_types.each do |str| %>
+			<%= partial(:"_service_type", :service_type => str)%>
+			<% end %></span></span><span class="inactive" id="state_money">, у яких державні гроші</span> <span class="inactive" id="buyer"> пройшли через <span id="anch1"></span><span  id="pre_search1" class="input_complete">Держпідприємство / установу</span></span><span class="inactive" id="seller"> 
+	потрапили до <span id="anch2"></span><span  id="pre_search2" class="input_complete">Отримувача коштів</span>.</span> <span class="inactive" id="deal_sum">Сума угоди повинна бути більше, ніж <span class="TKAdjustableNumber" data-var="dealSum" data-min="0" data-max="1000"></span> млн. гривень.</span> </p> </div>
+      <div class="span-6 last"><div class="stats" id="stats">
+				<ul title="Клікніть, щоб побачити угоди">
+				    <li><em data-var="dealVolume" data-format="millions"></em>
+					<span class="upper_label" data-var="dealUnits"></span></li>
+				    <li><em data-var="dealNumber"></em><span><span class="upper_label">Угод</span></span></li>
+				</ul>
+				</div>
+     </div> <!--eof tangle (main query widget)-->
+   </div>
+      <div id="instruction"   class="span-24"> 
+      <!--help-->
+      <div class="span-10" id="help_left"><!--h2 style="font-family: Open Sans Light; margin-bottom: 5px;">Допомога</h2-->
+	<p class="help">Клікніть на частину абзацу, щоб зробити її активною. Наприклад клікніть на "пов'язані з галуззю" (вона стане чорною) і оберіть галузь - після цього числа праворуч зміняться, і покажуть угоди лише для обраної галузі. Підкреслені параметри можна міняти: наведіть курсор на число і потягніть лівою кнопкою. Якщо ви прочитаєте всі чорні частини тексту, ви зрозумієте поточне питання - відповідь на нього знаходиться в числах праворуч. <a href="http://texty.org.ua/pg/news/devrand/read/35449/V_ponedilok_12_berezna_my_zapuskajemo_novyj">Дивіться відеоінструкцію</a></p> 
+       </div>
+       <div class="span-7" id="help_center">
+	<p class="help">
+        Клікніть на підкреслену назву установи, і знайдіть ту що вас цікавить за допомогою випадаючої підказки. У результаті, можна створювати запити на кшталт: "Показати угоди за 10 місяців, у яких державні гроші пройшли через Нафтогаз. Сума угоди повинна бути більша  ніж 100 млн гривень". </p>
+      </div>
+      <div class="span-7 last" id="help_right"><p class="help"> Щоб дізнатися ТОП-список угод - клікніть на ці числа. Вони змінюються одразу, коли ви міняєте параметри пошуку, та показують об'єм та кількість тих угод, що відповідають умовам вашого запиту. </p>  <p class="help" id="destroy_instruction" style="font-style: italic; margin-top: 1em; cursor: pointer;">Прибрати інструкцію</p>       
+      </div>	
+      </div>  
+      <!--eof help-->
+
+      <div class="span-24" id="top_table" style="display: none;"><h2 id='topx' style="font-family: OpenSansLight; margin-bottom: 5px; margin-top: 25px;">Toп-50 угод по запиту</h2>
+        <table id="top_result">
+          <thead>
+            <tr class="top_head">
+              <td width="370px">хто платив</td>
+              <td width="328px">кому платили</td>
+              <td width="80px">дата</td>
+              <td>сума, млн. грн</td>
+            </tr>
+          </thead>
+          <tbody>            
+          </tbody>
+        </table>
+        <div id="load-more" style="display: none;">Показати ще</div>
+      </div>
+      
+      <div class="span-24" style="height: 15px;"></div>
+
+      <div style="position: relative; bottom: -130px;"> 
+      <div class="span-7">
+        <h2 class="tnews">Новини сайту <a href="http://texty.org.ua" style="text-decoration: none;">Тексти</a></h2>
+      </div>
+      <div class="span-17 last">
+        <ul class="tnews">
+          <% @news.each do |item| %>
+          <li><a target="blank" href="<%= item[:url] %>"><%= item[:title] %></a></li>
+          <% end %>          
+        </ul>
+      </div>
+      <div class="span-10"><a href="http://texty.org.ua/pg/blog/infoviz" class="text-details">(cc) Texty.org.ua, журналістика даних, 2012 рік</a><br /><a class="text-details" href="http://www.irf.ua/"> Сайт створено за підтримки МФ "Відродження"</a><a class="text-details" href="https://tender.me.gov.ua"></a><br /><br /></div>  
+      <div class="span-14 last"><span class="text-details">Зворотній зв'язок: texty.org.ua (at) gmail<br /><em style="font-size: 1em"> Увага: переглядайте цей сайт за допомогою Firefox, Chrome, або Safari</em></span></div>
+
+       <div class="span-24"><a class="text-details" href="http://datajournalismawards.com/">У травні 2012  року проект зайняв друге місце на міжнародному конкурсі із журналістики даних (Франція)</a></div>
+       </div>

@@ -1,0 +1,44 @@
+<%= partial(:'_header', {:title => 'Zакупівлі', :motto => 'У 2011 році через держзакупівлі було прокачано <a href="http://texty.org.ua/pg/article/devrand/read/35479/Chorna_jekonomichna_dira_TeKSTY_zapustyly_onlajn_instrument">42% ВВП України</a>'}) %>
+<div class="span-24">
+  <h2>Підписка на оновлення бази даних тендерів</h2>
+  <% if @errors %>
+    <% @errors.each do |e| %>
+      <p class="error"><%= e %></p>
+    <% end %>
+  <% end %>
+  <% if @message %>
+  <p class="success"><%= @message %></p>
+  <% end %>
+  <form action="/subscribe" method="post">
+    <p>
+      <label for="email">Електронна пошта: </label>
+      <input type="text" name="email">
+    </p>
+    <p>
+      <label for="key_words">Ключеве слово: </label>
+      <input type="text" name="key_words">
+    </p>
+    <p>
+      <input type="submit" value="Підписатись">
+    </p>
+  </form>
+  <% if @subscribers %>
+  <p class="info">Кількість підпищіків: <%= @subscribers.length %></p>
+  <table>
+    <thead>
+      <td>email</td>
+      <td>key_words</td>
+      <td>confirmed</td>
+    </thead>
+    <tbody>
+      <% @subscribers.each do |subscriber| %>
+      <tr>
+        <td><%= subscriber.email %></td>
+        <td><%= subscriber.key_words %></td>
+        <td><%= subscriber.confirmed %></td>
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <% end %>
+</div>

@@ -1,0 +1,40 @@
+      <div class="span-24"><div style="font-size: 1.1em; font-weight: bold; font-family: 'Georgia'; position: absolute; top: 180px; left: 680px; font-style: italic;">Гігантський насос, яким посадовці викачують наші гроші</div><h1 class="main_title"><a href="#" style="color: black; text-decoration: none;">Закупівлі</a></h1></div>
+      <!--header end-->
+    <div id="tangle_root"><!--tangle --> 
+      <div class="span-18"><p class="query">Показати угоди за <span class="TKAdjustableNumber" data-var="dealMonthes" data-min="1" data-max="100"></span> <span data-var="periodName"></span><span class="inactive" id="market">, пов'язані з <span class="TKAdjustableNumberMy" data-var="dealMarket" data-min="2" data-max="17">
+                        <% @service_types.each do |str| %>
+			<%= partial(:"_service_type", :service_type => str)%>
+			<% end %></span></span><span class="inactive" id="state_money">, у яких державні гроші</span> <span class="inactive" id="buyer"> пройшли через <span id="anch1"></span><span  id="pre_search1" class="input_complete">Міністерство Справедливих Відкатів</span></span> <span class="inactive" id="seller"> 
+	потрапили до <span id="anch2"></span><span  id="pre_search2" class="input_complete">ПРАТ "Дєньгі ваші, сталі наші"</span>.</span> <span class="inactive" id="deal_sum">Сума угоди повинна бути більше, ніж <span class="TKAdjustableNumber" data-var="dealSum" data-min="0" data-max="1000"></span> млн. гривень.</span> </p> </div>
+      <div class="span-6 last"><div class="stats" id="stats">
+				<ul>
+				    <li><em data-var="dealVolume" data-format="millions"></em>
+					<span class="upper_label" data-var="dealUnits"></span></li>
+				    <li><em data-var="dealNumber"></em><span><span class="upper_label">Угод</span></span></li>
+				</ul>
+				</div>
+     </div> <!--eof tangle-->
+   </div>
+      <div id="instruction" class="span-24"> 
+      <!--help-->
+      <div class="span-10" id="help_left"><!--h2 style="font-family: Open Sans Light; margin-bottom: 5px;">Допомога</h2-->
+	<p class="help">Вище знаходиться запит для пошуку закупівель у формі "Показати угоди за ... ". Сірий колір означає, що відповідна частина запиту є неактивною, і не буде врахована під час пошуку. Щоб активізувати її - клікніть  один раз мишкою. Підкреслені параметри можна міняти. Наприклад, наведіть мишу на число і потягніть лівою кнопкою - і його величина зміниться. Також, можна міняти назви установ, через яких пройшли гроші.</p> 
+       </div>
+       <div class="span-7" id="help_center">
+	<p class="help">
+        Клікніть на підкреслену назву установи, і знайдіть ту що вас цікавить за допомогою випадаючої підказки. У результаті, можна створювати запити на кшталт: "Показати угоди за 10 місяців, у яких державні гроші пройшли через Нафтогаз. Сума угоди повинна бути більша  ніж 100 млн гривень". </p>
+      </div>
+      <div class="span-7 last" id="help_right"><p class="help"> Тут показано результат пошуку - а саме об'єм та кількість тих угод, що відповідають вашому запиту. Щоб дізнатися ТОП-список таких угод, або побачити зміну об'єму  (за весь час) - клікніть на ці числа.</p>  <p class="help" id="destroy_instruction" style="font-style: italic; margin-top: 1em; cursor: pointer;">Прибрати інструкцію</p>       
+      </div>	
+      </div>  
+      <!--eof help-->
+
+      <div class="span-24" id="top_table" style="display: none;"><h2 style="font-family: Open Sans Light; margin-bottom: 5px; margin-top: 15px;">Toп-10 угод по запиту</h2>
+
+      </div>
+      
+      <div class="span-24" style="height: 15px;"></div>
+
+      <div class="span-8"><a style="text-decoration: none; padding-bottom: 16px; font-size: 1.1em; font-family: Georgia; font-style: italic;" href="http://texty.org.ua">Журналістика даних від Texty.org.ua, 2012 рік</a></div>  
+      <div class="span-16 last">&nbsp;</div>
+

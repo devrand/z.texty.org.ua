@@ -1,0 +1,9 @@
+<% tenders.each do |tender| %>
+<tr>
+  <td><a href="/buyer/<%= tender.buyer_id %>"><%=tender.buyer.name.limit_words(32) %></a></td>
+  <td><a href="/seller/<%= tender.seller_id %>"><%=tender.seller.name.limit_words(32) %></a></td>
+  <td><a href="/deal/<%= tender.id %>"><%=tender.procurement_notice.subject.limit_words(64) %></a></td>
+  <td><%=tender.deal_date %></td>
+  <td><%= "%.1f" % (tender.volume / 1000) %></td>
+</tr>
+<% end %>

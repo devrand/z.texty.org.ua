@@ -1,0 +1,55 @@
+    <!doctype html>  
+    <html>  
+    <head>  
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />  
+    <title>Tooltip Example</title>  
+    <script type="text/javascript">  
+    var oTooltip = new (function() {  
+      var nOverX, nOverY, nLeftPos, nTopPos, oNode, bOff = true;  
+      this.follow = function (oMsEvnt1) {  
+        if (bOff) { return; }  
+        var nMoveX =  oMsEvnt1.clientX, nMoveY =  oMsEvnt1.clientY;  
+        nLeftPos += nMoveX - nOverX; nTopPos += nMoveY - nOverY;  
+        oNode.style.left = nLeftPos + "px";  
+        oNode.style.top = nTopPos + "px";  
+        nOverX = nMoveX; nOverY = nMoveY;  
+      };  
+      this.remove = function () {  
+        if (bOff) { return; }  
+        bOff = true; document.body.removeChild(oNode);  
+      };  
+      this.append = function (oMsEvnt2, sTxtContent) {  
+        oNode.innerHTML = sTxtContent;  
+        if (bOff) { document.body.appendChild(oNode); bOff = false; }  
+        var nScrollX = document.documentElement.scrollLeft || document.body.scrollLeft, nScrollY = document.documentElement.scrollTop || document.body.scrollTop, nWidth = oNode.offsetWidth, nHeight = oNode.offsetHeight;  
+        nOverX = oMsEvnt2.clientX; nOverY = oMsEvnt2.clientY;  
+        nLeftPos = document.body.offsetWidth - nOverX - nScrollX > nWidth ? nOverX + nScrollX + 10 : document.body.offsetWidth - nWidth + 16;  
+        nTopPos = nOverY - nHeight > 6 ? nOverY + nScrollY - nHeight - 7 : nOverY + nScrollY + 20;  
+        oNode.style.left = nLeftPos + "px";  
+        oNode.style.top = nTopPos + "px";  
+      };  
+      this.init = function() {  
+        oNode = document.createElement("div");  
+        oNode.className = "tooltip";  
+        oNode.style.position = "absolute";  
+      };  
+    })();  
+    </script>  
+    <style type="text/css">  
+    div.tooltip {  
+      padding: 6px;  
+      background: #ffffff;  
+      border: 1px #76808C solid;  
+      border-radius: 5px;  
+      -moz-border-radius: 5px;  
+      -webkit-border-radius: 5px;  
+      z-index: 9999;  
+    }  
+    </style>  
+    </head>  
+      
+    <body onload="oTooltip.init();">  
+    <p><a href="http://developer.mozilla.org/" onmouseover="oTooltip.append(event,'Example text 1');" onmousemove="oTooltip.follow(event);" onmouseout="oTooltip.remove();">Move your mouse here&hellip;</a></p>  
+    <p><a href="http://developer.mozilla.org/" onmouseover="oTooltip.append(event,'Example text 2');" onmousemove="oTooltip.follow(event);" onmouseout="oTooltip.remove();">&hellip;or here!!</a></p>  
+    </body>  
+    </html>  

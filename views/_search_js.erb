@@ -1,0 +1,57 @@
+//safety closure  
+(function($) {  
+    //domready event  
+    window.addEvent('domready',function() { 
+
+        //function that add new tenders to table
+        var addToTable = function(response) { 
+                //create the HTML
+                var tenders = new Element('table', {html: response}).getChildren();  
+                //inject into the container
+                tenders.inject($('deals'));
+        };  
+  
+        //a few more variables  
+        var start = <%=posts_start %>; 
+        var tenders_per_request = <%=tenders_per_request%>;
+        var number_of_tenders = <%=number_of_tenders%>;  
+        var loadMore = $('load-more');  
+        var request = new Request({  
+            url: 'search',
+            method: 'post',  
+            link: 'cancel',  
+            noCache: true,  
+            onRequest: function() {  
+                //change the message  
+                loadMore.set('text','Зачекайте...');  
+            },  
+            onSuccess: function(response) {  
+                //reset the message  
+                loadMore.set('text','Показати ще');  
+                //increment the current status  
+                start += tenders_per_request;  
+                //add in the new tenders
+                addToTable(response);
+                if( start >= number_of_tenders) {
+                  loadMore.hide();
+                };
+            },  
+            onFailure: function() {  
+                //reset the message  
+                loadMore.set('text','Упс! Спробуйте ще раз...');  
+            }
+        });  
+        //add the "Load More" click event  
+        loadMore.addEvent('click',function(){  
+            //begin the ajax attempt  
+            request.send({  
+                data: {  
+                    'start': start
+                    <% [:date_from, :date_to, :service_type, :volume_from, :volume_to, :key_word].each do |key| %>
+                      <% if params[key] %>, '<%=key.to_s%>': '<%= params[key] %>'<% end %>
+                    <% end %>
+                },  
+            });  
+        });  
+    });  
+})(document.id); 

@@ -1,0 +1,34 @@
+     
+         function build_barchart(url, who, id, title) {
+	   var w = 200, h = 98, p = 20, t = title;
+           var jsonRequest = new Request.JSON({
+			url: url + "/chart", 
+			onSuccess: function(jsondata){
+                          barChart(jsondata, w, h, p, t); 
+		     }}).post({type: 'diagramm', player: who, id: id}); 
+        };
+
+         function build_timechart(url, who, id, title) {
+	   var w = 150, h = 100, p = 20, t = title;
+           var jsonRequest = new Request.JSON({
+			url: url + "/chart", 
+			onSuccess: function(jsondata){
+                          timeChart(jsondata, w, h, p, t); 
+		     }}).post({type: 'time', player: who, id: id}); 
+        };
+
+        window.addEvent('domready', function(){
+		startAll();
+     	}); 
+
+        // setup for time chart of volumes 
+
+        function startAll(){
+          	var url = '<%=url %>';
+                var role = '<%=role %>'; // buyer or seller? 
+                var id = '<%=id%>';
+                var timechart_title = "<%=chart_title2 %>"; 
+                var barchart_title = "<%= chart_title3 %>"; 
+                build_barchart(url, role, id, barchart_title);
+                build_timechart(url, role, id, timechart_title );
+        }

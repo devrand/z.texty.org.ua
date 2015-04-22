@@ -1,0 +1,36 @@
+      <%= partial(:'_header', {:title => 'Закупівлі', :motto => 'Читайте про несправедливий розподіл коштів <a href="http://texty.org.ua/pg/article/devrand/read/36426#zak"> держзакупівель</a>'}) %>
+      <!--header end-->
+      
+      <div class="span-7"><p style="font-size: 1.65em; text-transform: uppercase; margin-top: 6px;"><%=name%></p> <!-- TODO: додати ще ...  permalink --></div>
+      <div class="span-6" id="barchart"></div>
+      <div class="span-5" id="vis"></div>
+      <div class="span-6 last"><div class="stats" style="cursor: default;">
+				<ul style="padding-left: 1.9em;">
+				    <li><em data-var="dealVolume"><%=volume%></em><span class="upper_label">мільйонів гривень</span></li>
+				    <li><em data-var="dealNumber"><%=dnum%></em><span class="upper_label" >Угод</span></li>
+				</ul>
+				</div>
+     </div>
+
+      <div class="span-24"><!--table with deals-->
+        <table class="deals_tbl"  id="deals" onclick="sortColumn(event)">
+           <thead>  
+             <tr class="deals_head"><td title="клікніть, щоб сортувати" width="29%"><%=@header1 %></td>
+				    <td title="клікніть, щоб сортувати" width="49%"><%=@header2 %></td>
+				    <td title="клікніть, щоб сортувати" type="Date" width="10%">Дата</td>
+				    <td title="клікніть, щоб сортувати" type="Number">Сума<span style="font-size: 0.8em; 
+					font-family: OpenSansLight;">, тис. грн</span></td>
+	   </tr>
+	   </thead>
+           <tbody>      
+                        <% deals.each do |deal| %>
+			<%= partial(:"_deal_in_row", :deal => deal, :role => role) %>
+                        <% end %>
+           </tbody>
+        </table>
+
+      </div><!--table with deals end-->
+      <div class="span-24">* У таблиці показані не більше ніж 100 останніх за часом угод</div>
+      <div class="span-24">** Клікніть на заголовок стовбців, щоб сортувати по назвам, даті та кількості</div>
+      <div class="span-24">Усі наведені дані - з офіційного сайту держзакупівель http://tender.me.gov.ua</div>
+

@@ -1,0 +1,21 @@
+<%= partial(:'_header', {:title => 'Zакупівлі', :motto => 'У 2011 році через держзакупівлі було прокачано <a href="http://texty.org.ua/pg/article/devrand/read/35479/Chorna_jekonomichna_dira_TeKSTY_zapustyly_onlajn_instrument">42% ВВП України</a>'}) %>
+<div class="span-24">
+  <div class="span-11">
+    <h2>Топ-100 замовників</h2>
+    <ul>
+      <% @top_buyers.each do |buyer| %>
+      <li><a href="/buyer/<%= buyer[:id] %>"><%= buyer[:name] %></a> <%= "%.1f" % (buyer[:total_volume]/1000000)%> млн грн</li>
+      <div style="width:<%= "%d" % ( 2 + 0.98*(buyer[:total_volume]*100/@max_buyer_value)) %>%; background-color: #EDDAC3; height: 20px;"></div>
+      <% end %>
+    </ul>
+  </div>
+  <div class="span-11">
+    <h2>Топ-100 виконавців</h2>
+    <ul>
+      <% @top_sellers.each do |seller| %>
+      <li><a href="/seller/<%= seller[:id] %>"><%= seller[:name] %></a> <%= "%.1f" % (seller[:total_volume]/1000000)%> млн грн</li>
+      <div style="width:<%= "%d" % ( 2 + 0.98*(seller[:total_volume]*100/@max_seller_value)) %>%; background-color: #EDDAC3; height: 20px;"></div>
+      <% end %>
+    </ul>
+  </div>
+</div>

@@ -1,0 +1,302 @@
+html { font-size:16px; }
+
+body{
+    font-family: 'OpenSansLight',  sans-serif;
+}
+
+h1.main_title {
+    font-family: 'DroidSerifRegular', Georgia, serif;
+    font-size: 8em;
+    margin-bottom: 0.5em;
+    margin-top: 0.2em;
+}
+
+.query {
+/*    font-family: 'OpenSansLight';*/
+    font-size: 2em;
+    /* cursor: pointer;*/
+}
+
+p.query{ margin-bottom: 0.5em;}
+
+.arrow {
+  font-size: 1.5em;
+  padding-left: 2px;
+  position: relative;
+  bottom: 3px;
+}
+.stats{
+  cursor: pointer;
+}
+
+/* show numbers of deals and total amount of funds */
+.stats li {
+    display: inline-block;
+    width: 100%;
+    margin-top: 3px;
+    padding: 4px;
+    padding-left: 0px;
+    font-size: 9px;
+    line-height: 10px;
+}
+
+.upper_label {
+    
+    text-transform: uppercase;
+    font-family: Arial, sans-serif;
+}
+
+.stats em  {
+    display: block;
+    /*font-family: ''OpenSansLight'', Arial, sans-serif;*/
+    font-size: 46px;
+    font-style: normal;
+    letter-spacing: 0.05em;
+    line-height: 46px;
+}
+.stats span{
+    padding-left: 3px;
+}
+
+.stats ul {
+    padding-left: 0.5em;
+}
+
+
+.inactive{
+    color: #bebebe;
+	cursor: pointer;
+}
+
+.inactive:hover{
+    color: #555555;
+	cursor: pointer;
+}
+.active{
+    color: #000000;
+	cursor: pointer;
+}
+
+/* main page table */
+.top_results {
+	color: #222222;
+	font-size: 1.1em;
+	/*font-family: 'OpenSansLight', Arial; */
+	line-height: 1.5em; 
+	padding-left: 15px; 
+}
+/* table headers for deals results*/
+td h2 {
+  /*font-family: 'OpenSansLight'; */
+  margin-bottom: 5px;
+}
+/*
+tbody tr:nth-child(2n) td, tbody tr.even td {
+    background: none repeat scroll 0 0 #eeeeee;
+}
+
+tr:nth-child(2n) td,  tr.even td {
+    background: none repeat scroll 0 0 #efefef;
+}
+*/
+td {
+  border-bottom: 1px dotted;
+}
+
+
+#top_result {
+  /*font-family: 'OpenSansLight'; */
+  color: black;
+}
+
+#top_result a{
+  text-decoration: none;
+  color: black;
+}
+
+
+
+.deals_tbl{
+  padding-top: 1em;
+}
+
+
+
+/* table for the firm(buyer, seller) page */
+thead tr.deals_head td {
+  font-family: PTSansCaptionRegular, Arial;
+  font-weight: bold;
+  text-transform: uppercase;
+  font-size: 0.95em;
+  cursor: pointer; 
+}
+
+td a {
+  text-decoration: none;
+}
+
+/* header for the first page table */
+tr.top_head td {
+  font-family: Arial;
+  text-transform: uppercase;
+  font-size: 0.75em;
+}
+
+
+
+/* graph styles */ 
+.area {
+  fill: #EDDAC3;
+}
+
+.chart.noborder { border-left: none; padding-left: 0; margin-left: 16px; }
+
+
+#vis { background: #fff;  float: left;}
+
+#boo {width: 690px;}
+
+.aheader {
+	font-size: 9px;
+	font-family: Arial, sans-serif;
+        line-height: 10px;
+	fill: #222222;
+}
+
+.ticklabel, .ticklabel1, .rtext, .ltext { font-size: 0.85em; fill: #000; /*font-family: 'OpenSansLight';*/}
+.chart { 
+    float: left; 
+    padding: 0px;
+    margin-right: 20px; 
+}
+.chart.noborder { border-left: none; padding-left: 0; margin-left: 16px; }
+.chart.endrow { padding-right: 0; }
+.rule line {
+  stroke: #eee;
+  shape-rendering: crispEdges;
+}
+
+.rule line.axis {
+  stroke: #000;
+}
+
+.barchart rect {
+  fill: #EDDAC3;
+}
+
+.barchart text.rtext{
+  cursor: pointer;
+}
+
+.help {
+    color: #444444;
+    font-family: 'PTSansCaptionRegular', Arial, sans;
+    font-size: 1.1em;
+    margin-bottom: 5px;
+}
+
+a{
+  /*color: grey;*/
+  color: black;
+}
+
+.input_complete {
+	border-bottom: 1px dashed #4466FF;
+}
+
+input[type="text"], 
+textarea, select {
+    font-family: 'OpenSansLight';
+    width: 100px;
+}
+select.galuz { width: 300px;}
+
+/* page for one deal */
+.field_name {
+    font-family: PTSansCaptionRegular,Arial;
+    font-size: 0.95em;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.field_text {
+    font-size: 1.65em;
+    margin-top: 6px;
+    text-transform: uppercase;
+}
+
+.field_text a {
+    text-decoration: none;
+}
+
+.text-details{
+    text-decoration: none; 
+    padding-bottom: 16px; 
+    font-size: 1.1em; 
+    font-family: Georgia; 
+    font-style: italic; 
+    color: gray;
+}
+
+#load-more { 
+  background-color:#eee; 
+  color:#999; 
+  font-weight:bold; 
+  text-align:center; 
+  padding:10px 0; 
+  cursor:pointer; 
+}  
+#load-more:hover {
+  color:#666; 
+}
+
+.menu-cont {
+  margin-left: 20px;
+    padding-top: 49px;
+}
+
+.motto {
+  font-family: Georgia, "Times New Roman", Times, serif;
+  font-size: 14px;
+  font-style: italic;
+  margin-bottom: 19px;
+}
+
+ul.main-menu {
+  list-style-type: none;
+  height: 30px;
+  width: 400px;
+  margin-left: 0px;
+   padding-left: 0;
+}
+
+.main-menu li  {
+  padding-right: 20px;
+  float: left;
+}
+
+ul.tnews{list-style-type: none; margin-left: 0px; padding-left: 0px; margin-bottom: 40px; }
+
+.tnews li {
+  padding-right: 17px;
+}
+
+.tnews li a {text-decoration: none;}
+h2.tnews{margin-bottom: 5px;}
+
+.main-menu li a {
+  display: block;
+  text-decoration: none;
+  font-family: Droid Serif, Georgia,serif;
+  font-size: 1em;
+  font-weight: bold;
+}
+
+.main_title a{
+color: rgb(98, 134, 138);
+text-decoration: none;
+font-family:  Arial;
+font-weight: bold;
+text-decoration: none;
+}
+

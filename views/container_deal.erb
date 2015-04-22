@@ -1,0 +1,31 @@
+      <%= partial(:'_header', {:title => 'Закупівлі', :motto => 'Читайте про загрозливі масштаби <a href="http://texty.org.ua/pg/article/devrand/read/35479/Chorna_jekonomichna_dira_TeKSTY_zapustyly_onlajn_instrument"> держзакупівель</a>'}) %>
+      <!--header end-->
+    <div class="container">
+      <div class="span-24" style="margin-top: 0px; margin-bottom: 30px;"><span class="field_text"></span></div>
+      <div class="span-8"><span class="field_name">Хто платив</span></div><div class="span-8"><span class="field_name">Кому платив</span></div>
+		<div class="span-8 last"><span class="field_name">Сума*</span></div>
+      <div class="span-8"><span class="field_text"><%=link_to(@url + "/buyer/#{buyer[:id]}", buyer[:name]) %></span></div>
+      <div class="span-8"><span class="field_text"><%=link_to(@url + "/seller/#{seller[:id]}", seller[:name]) %></span></div>
+		<div class="span-8 last"><div class="stats" style="cursor: default;"><em><%=volume %></em></div><span class="upper_label" style="font-family: Arial; font-size: 9px;">тисяч гривень</span></div>
+      <div class="span-24" style="margin-top: 20px;"><span class="field_name">За що платив (предмет тендеру)</span></div>
+      <div class="span-24"><div style="font-size: 1.5em;"><%=deal_subj%></div></div>
+      <div class="span-24" style="margin-top: 30px;"></div>
+      <div class="span-3"><span class="field_name">Дата</span></div>
+	<div class="span-5"><span class="field_name">"Вісник Закупівель"</span></div>
+	<div class="span-5"><span class="field_name">Тип тендеру</span></div>
+        <div class="span-5"><span class="field_name">Результат</span></div>
+        <div class="span-6 last"><span class="field_name">Галузь</span></div>
+
+      <div class="span-3"><%=deal_date%></div>
+      <div class="span-5"><%=deal_issue%></div>
+      <div class="span-5"><%=deal_type%></div>
+      <div class="span-5"><%=deal_result%></div>
+      <div class="span-6 last"><%=deal_market%></div>
+      <% if deal_subj =~ /лот[^1-9]?[1-9]/
+           chunk = "Вказана сума відноситься до одного з наведених в оголошенні лотів. "
+         else
+           chunk = '' 
+         end %>
+      <!--div class="span-24"><div style="font-style: italic; margin-top: 20px;">*<%=chunk%>Для того щоб подивитися більш детальні подробиці, завітайте на офіційний сайт державних закупівель (необхідна реєстрація та логін): <a href="<%=deal_url%>">додаткові деталі угоди</a></div></div-->
+    </div>  
+
